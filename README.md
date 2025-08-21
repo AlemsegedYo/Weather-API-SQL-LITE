@@ -15,6 +15,9 @@ This repository addresses the following data engineering challenges:
 5. **Testing**: Provided unit tests for API endpoints and ingestion logic (`tests/`).
 
 
+**Upsert Logic:** The ingestion process uses upsert logic—new weather records are inserted, and existing records are only updated if the data has changed, ensuring efficient and idempotent data loading.
+
+
 ---
 
 ## Features
