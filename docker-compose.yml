@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    volumes:
+      # Mount the current directory to the container's /app directory
+      # to enable live code changes and persistence of the SQLite database file.
+      - .:/app
+    ports:
+      # Map the container's port 5000 to the host's port 5000
+      - "8000:5000"
+    environment:
+      # Define environment variables for the application
+      FLASK_APP: app.py
+      DATABASE_URL: sqlite:///weather.db
