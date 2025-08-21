@@ -19,11 +19,12 @@ This repository addresses the following data engineering challenges:
 
 ## Features
 
-- **Data Ingestion**: Import weather data from text files into a SQLite database.
-- **Statistical Computation**: Compute yearly weather statistics (average max/min temperature, total precipitation) for each station.
-- **REST API**: Query weather records and statistics via a Flask-based API with filtering and pagination.
-- **Modular Scripts**: Separate scripts for ingestion, computation, and API serving.
-- **Testing**: Unit tests for API endpoints and ingestion logic.
+- **Database Modeling (`models.py`):** Normalized schema for weather and statistics using SQLAlchemy ORM.
+- **Data Ingestion:** Import weather data from text files into a SQLite database.
+- **Statistical Computation:** Compute yearly weather statistics (average max/min temperature, total precipitation) for each station.
+- **REST API:** Query weather records and statistics via a Flask-based API with filtering and pagination.
+- **Modular Scripts:** Separate scripts for ingestion, computation, and API serving.
+- **Testing:** Unit tests for API endpoints and ingestion logic.
 
 ## Key Functionality
 
@@ -34,73 +35,107 @@ This repository addresses the following data engineering challenges:
 
 ## Requirements & Dependencies
 
+## Requirements
+
 - Python 3.8+
-- Flask==2.3.2
-- flask-restx==1.1.0
-- SQLAlchemy==2.0.22
-- pytest==7.4.2
+- Docker (for containerized usage)
+- See `requirements.txt` for Python dependencies.
 
-All dependencies are listed in `requirements.txt`.
+---
 
-## Environment Setup
+## Quickstart
 
-1. **Clone the repository**:
-   ```sh
-   git clone https://github.com/AlemsegedYo/weather-yield-sqlite.git
-   cd weather-yield-sqlite
-   ```
+### 1. Clone the Repository
 
-2. **(Optional) Create a virtual environment**:
-   ```sh
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+```sh
+git clone https://github.com/AlemsegedYo/weather-yield-sqlite.git
+cd weather-yield-sqlite
+```
 
-3. **Install dependencies**:
-   ```sh
-   pip install -r requirements.txt
-   ```
+### 2. Local Setup (Optional)
 
-## Usage
+```sh
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
-### 1. Ingest Weather Data
-Import weather data from text files into the SQLite database:
+### 3. Build and Run with Docker
+
+```sh
+docker-compose up --build
+```
+
+### 4. Ingest Data
+
+```sh
+docker compose run --rm app python ingestion.py
+```
+
+### 5. Compute Yearly Statistics
+
+```sh
+docker compose run --rm app python compute_stats.py --db-path data/weather.db
+```
+
+### 6. Run the API Server
+
+```sh
+docker compose run --rm app python api.py --db-path data/weather.db --host 0.0.0.0 --port 5000
+```
+
+### 7. Access API Documentation
+
+Open [http://localhost:8000/docs](http://localhost:8000/docs) in your browser for interactive API documentation.
+
+---
+
+## Usage (Without Docker)
+
+### Ingest Weather Data
+
 ```sh
 python ingest.py --data-dir data/wx_data --db-path data/weather.db
 ```
 
-### 2. Compute Yearly Statistics
-Calculate and store yearly statistics:
+### Compute Yearly Statistics
+
 ```sh
 python compute_stats.py --db-path data/weather.db
 ```
 
-### 3. Run the API Server
-Start the Flask API server:
+### Run the API Server
+
 ```sh
 python api.py --db-path data/weather.db --host 127.0.0.1 --port 5000
 ```
-Visit [http://127.0.0.1:5000/docs](http://127.0.0.1:5000/docs) for interactive API documentation.
 
-### 4. Run Tests
-Execute unit tests:
+Visit [http://127.0.0.1:5000/docs](http://127.0.0.1:5000/docs) for API docs.
+
+### Run Tests
+
 ```sh
 pytest
 ```
+
+---
 
 ## License
 
 This project is licensed under the MIT License. See the `License` file for details.
 
+---
+
 ## Data Source
 
-The weather data and challenge description for this project were sourced from the Corteva code challenge template repository:
+Weather data and challenge description sourced from the Corteva code challenge template repository:  
+https://github.com/corteva/code-challenge-template
 
-- [https://github.com/corteva/code-challenge-template](https://github.com/corteva/code-challenge-template)
+---
 
 ## Contact
 
-For questions or collaboration, please contact:
+For questions or collaboration:
 
 - **Name:** Yohana Alemseged
 - **Email:** yohanatecle11@gmail.com
